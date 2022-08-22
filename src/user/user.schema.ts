@@ -16,7 +16,7 @@ export class User {
   @Prop()
   profilePic: string;
   @Prop({
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'organization' }],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Organization' }],
   })
   organizations: Organization[];
 }
