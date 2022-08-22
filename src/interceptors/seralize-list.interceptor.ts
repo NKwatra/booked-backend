@@ -19,7 +19,8 @@ export class SerializeListInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         const formattedObjects = data.map((object) => {
-          const docWithId = { ...object._doc, id: object._doc._id };
+          const docWithId = { ...object._doc, id: object._doc._id.toString() };
+          console.log(docWithId, object._doc, object.id);
           return plainToClass(this.dto, docWithId, {
             excludeExtraneousValues: true,
           });

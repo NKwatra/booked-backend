@@ -21,7 +21,7 @@ export class SerializeInterceptor implements NestInterceptor {
   ): Observable<any> {
     return next.handle().pipe(
       map((data) => {
-        const docWithId = { ...data._doc, id: data._doc._id };
+        const docWithId = { ...data._doc, id: data._doc._id.toString() };
         return plainToClass(this.dto, docWithId, {
           excludeExtraneousValues: true,
         });
