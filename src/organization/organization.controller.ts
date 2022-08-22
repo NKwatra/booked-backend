@@ -10,7 +10,9 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Serialize } from '../decorators/serialize.decorator';
 import { CreateOrganizationDto } from './dtos/create-organization.dto';
+import { OrganizationObjectDto } from './dtos/organization-object.dto';
 import { OrganizationService } from './organization.service';
 
 @Controller('organization')
@@ -18,6 +20,7 @@ export class OrganizationController {
   constructor(private orgService: OrganizationService) {}
 
   @Post()
+  @Serialize(OrganizationObjectDto)
   @UseInterceptors(FileInterceptor('logo'))
   async addNew(
     @Body() organization: CreateOrganizationDto,
