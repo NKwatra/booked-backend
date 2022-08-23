@@ -4,6 +4,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { UserModule } from './user/user.module';
 import { OtpModule } from './otp/otp.module';
+import { AuthModule } from './auth/auth.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -12,6 +14,8 @@ import { OtpModule } from './otp/otp.module';
     CloudinaryModule,
     UserModule,
     OtpModule,
+    AuthModule,
+    EmailModule,
   ],
 })
 export class AppModule {}
