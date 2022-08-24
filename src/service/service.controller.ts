@@ -5,22 +5,29 @@ import {
   FileTypeValidator,
   MaxFileSizeValidator,
   ParseFilePipe,
+  ParseIntPipe,
   Post,
+  Query,
   Session,
   UploadedFile,
   UseInterceptors,
+  Get,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { SerializeList } from '../decorators/serialize-list.decorator';
 import { Authorized } from '../decorators/authorization.decorator';
 import { UserType } from '../user/enums/user-type.enum';
 import { AddServiceDto } from './dto/add-service.dto';
+import { ServiceObjectDto } from './dto/service-object.dto';
 import { ServiceService } from './service.service';
+import { Serialize } from '../decorators/serialize.decorator';
 
 @Controller('service')
 export class ServiceController {
   constructor(private service: ServiceService) {}
 
   @Authorized(UserType.ADMIN)
+  @Serialize(ServiceObjectDto)
   @UseInterceptors(FileInterceptor('backgroundImage'))
   @Post()
   async addService(
@@ -57,5 +64,25 @@ export class ServiceController {
       session.orgId,
     );
     return newService;
+  }
+
+  @Authorized(UserType.CUSTOMER)
+  @SerializeList(ServiceObjectDto)
+  @Get()
+  async listServices(
+    @Query('page', ParseIntPipe) page: number,
+    @Session() session: any,
+  ) {
+    const userType = session.userType;
+    let services;
+    if (userType === UserType.EXPERT) {
+      services = await this.service.listExpertServices(session.userId, page);
+    } else {
+      services = await this.service.listOrganizationServices(
+        session.orgId,
+        page,
+      );
+    }
+    return services;
   }
 }
