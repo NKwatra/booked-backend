@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { OtpModule } from './otp/otp.module';
 import { AuthModule } from './auth/auth.module';
 import { EmailModule } from './email/email.module';
+import { ServiceModule } from './service/service.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { EmailModule } from './email/email.module';
     OtpModule,
     AuthModule,
     EmailModule,
+    ServiceModule,
   ],
 })
 export class AppModule {}
